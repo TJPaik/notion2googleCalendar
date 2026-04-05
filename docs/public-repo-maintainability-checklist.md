@@ -68,6 +68,17 @@ Use this checklist before opening the repo publicly and again before merging any
 - [ ] acceptance tests pass
 - [ ] dry-run example output is still understandable to a new contributor
 
+When the scaffold exists, the verification evidence should map to the planned commands from the test spec:
+
+```bash
+npm run lint
+npm run typecheck
+npm run test:unit
+npm run test:integration
+npm run test:acceptance
+npm run sync -- --dry-run
+```
+
 ---
 
 ## 4) Documentation quality bar
@@ -132,3 +143,16 @@ The repo is ready for broader public use only when all of the following are true
 5. Delay automation/scheduler/webhook concerns until the manual CLI path is solid
 
 This ordering keeps the project understandable while the feature surface grows.
+
+---
+
+## 8) Checklist ownership and update points
+
+Update this checklist when any of the following changes:
+
+- the public onboarding flow changes (`README.md`, `.env.example`, auth/setup steps)
+- the planned verification commands change
+- the directory boundaries in the PRD are intentionally revised
+- the project starts accepting outside contributors and needs stronger contribution/security/review defaults
+
+If the implementation diverges from this checklist, update the checklist in the same PR instead of letting the docs drift.
