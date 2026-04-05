@@ -32,7 +32,7 @@ This sequence turns the approved PRD and test spec into a reviewable delivery or
 ---
 
 ## PR 1 — Foundation scaffold and contracts
-**Owner:** Lane A  
+**Owner:** Lane A
 **Branch:** `lane/foundation-contracts`
 
 ### Scope
@@ -68,7 +68,7 @@ This sequence turns the approved PRD and test spec into a reviewable delivery or
 ---
 
 ## PR 2 — Notion adapter mapping and fetch path
-**Owner:** Lane B  
+**Owner:** Lane B
 **Branch:** `lane/notion-adapter`
 
 ### Scope
@@ -105,7 +105,7 @@ This sequence turns the approved PRD and test spec into a reviewable delivery or
 ---
 
 ## PR 3 — Google adapter identity and CRUD path
-**Owner:** Lane C  
+**Owner:** Lane C
 **Branch:** `lane/google-adapter`
 
 ### Scope
@@ -141,7 +141,7 @@ This sequence turns the approved PRD and test spec into a reviewable delivery or
 ---
 
 ## PR 4 — Sync engine reconcile logic
-**Owner:** Lane D  
+**Owner:** Lane D
 **Branch:** `lane/sync-engine-cli`
 
 ### Scope
@@ -178,7 +178,7 @@ This sequence turns the approved PRD and test spec into a reviewable delivery or
 ---
 
 ## PR 5 — CLI orchestration and dry-run/write flow
-**Owner:** Lane D  
+**Owner:** Lane D
 **Branch:** `lane/sync-engine-cli`
 
 ### Scope
@@ -212,7 +212,7 @@ This sequence turns the approved PRD and test spec into a reviewable delivery or
 ---
 
 ## PR 6 — Docs, smoke checks, and verification hardening
-**Owner:** Lane E  
+**Owner:** Lane E
 **Branch:** `lane/verification-docs`
 
 ### Scope
