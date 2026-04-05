@@ -3,12 +3,20 @@ import type { calendar_v3 } from 'googleapis';
 import type { CalendarEventInput } from '../domain/calendar-event-input';
 import type { SyncDecision } from '../domain/sync-decision';
 
+function normalizeDateTime(value: string | undefined): string {
+  if (!value) {
+    return '';
+  }
+
+  return new Date(value).toISOString();
+}
+
 function getEventDateSignature(event: calendar_v3.Schema$Event): string {
   if (event.start?.date && event.end?.date) {
     return `all-day:${event.start.date}:${event.end.date}`;
   }
 
-  return `timed:${event.start?.dateTime ?? ''}:${event.end?.dateTime ?? ''}`;
+  return `timed:${normalizeDateTime(event.start?.dateTime ?? undefined)}:${normalizeDateTime(event.end?.dateTime ?? undefined)}`;
 }
 
 function getInputDateSignature(input: CalendarEventInput): string {
@@ -16,7 +24,7 @@ function getInputDateSignature(input: CalendarEventInput): string {
     return `all-day:${input.date.start}:${input.date.end}`;
   }
 
-  return `timed:${input.date.start}:${input.date.end}`;
+  return `timed:${normalizeDateTime(input.date.start)}:${normalizeDateTime(input.date.end)}`;
 }
 
 export function reconcileEvent(

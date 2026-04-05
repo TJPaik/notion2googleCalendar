@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import type { CalendarEventInput } from '../../../src/domain/calendar-event-input';
 import { reconcileEvent } from '../../../src/sync/reconcile';
 
-const input: CalendarEventInput = {
+const allDayInput: CalendarEventInput = {
   sourcePageId: 'page-1',
   sourceDatabaseId: 'database-1',
   title: '테스트 일정',
@@ -17,7 +17,7 @@ const input: CalendarEventInput = {
 
 describe('reconcileEvent', () => {
   it('creates when no managed event exists', () => {
-    expect(reconcileEvent(null, input, false)).toEqual({
+    expect(reconcileEvent(null, allDayInput, false)).toEqual({
       action: 'create',
       reason: 'no managed event exists for the source record',
     });
@@ -32,7 +32,37 @@ describe('reconcileEvent', () => {
           start: { date: '2026-04-10' },
           end: { date: '2026-04-11' },
         },
-        input,
+        allDayInput,
+        false,
+      ),
+    ).toEqual({
+      action: 'noop',
+      reason: 'managed event already matches the normalized source record',
+    });
+  });
+
+  it('treats equivalent timed dateTimes as noop even when offsets differ', () => {
+    const timedInput: CalendarEventInput = {
+      sourcePageId: 'page-2',
+      sourceDatabaseId: 'database-1',
+      title: '시간 있는 일정',
+      description: '',
+      date: {
+        start: '2026-04-06T01:00:00+09:00',
+        end: '2026-04-06T02:00:00+09:00',
+        allDay: false,
+      },
+    };
+
+    expect(
+      reconcileEvent(
+        {
+          summary: '시간 있는 일정',
+          description: '',
+          start: { dateTime: '2026-04-05T16:00:00.000Z' },
+          end: { dateTime: '2026-04-05T17:00:00.000Z' },
+        },
+        timedInput,
         false,
       ),
     ).toEqual({
@@ -50,7 +80,7 @@ describe('reconcileEvent', () => {
           start: { date: '2026-04-10' },
           end: { date: '2026-04-11' },
         },
-        input,
+        allDayInput,
         false,
       ),
     ).toEqual({
@@ -68,7 +98,7 @@ describe('reconcileEvent', () => {
           start: { date: '2026-04-10' },
           end: { date: '2026-04-11' },
         },
-        input,
+        allDayInput,
         true,
       ),
     ).toEqual({
