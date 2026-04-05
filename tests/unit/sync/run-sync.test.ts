@@ -77,6 +77,73 @@ describe('runSync', () => {
     expect(googleAdapter.deleteEvent).not.toHaveBeenCalled();
   });
 
+  it('marks managed Google events without a source record for deletion', async () => {
+    const deleteEvent = vi.fn();
+    const notionAdapter: NotionAdapter = {
+      fetchRecords: async () => [activeRecord],
+    };
+    const googleAdapter: GoogleCalendarAdapter = {
+      listManagedEvents: async () =>
+        new Map([
+          [
+            'database-1:page-1',
+            {
+              id: 'event-1',
+              summary: '활성 일정',
+              description: '설명',
+              start: { date: '2026-04-10' },
+              end: { date: '2026-04-11' },
+              extendedProperties: {
+                private: {
+                  source: 'notion',
+                  notionPageId: 'page-1',
+                  notionDatabaseId: 'database-1',
+                },
+              },
+            },
+          ],
+          [
+            'database-1:page-3',
+            {
+              id: 'event-3',
+              summary: '고아 일정',
+              start: { date: '2026-04-12' },
+              end: { date: '2026-04-13' },
+              extendedProperties: {
+                private: {
+                  source: 'notion',
+                  notionPageId: 'page-3',
+                  notionDatabaseId: 'database-1',
+                },
+              },
+            },
+          ],
+        ]),
+      createEvent: vi.fn(),
+      updateEvent: vi.fn(),
+      deleteEvent,
+    };
+
+    const summary = await runSync(notionAdapter, googleAdapter, config, {
+      write: true,
+      now: new Date('2026-04-05T15:00:00.000Z'),
+    });
+
+    expect(summary.counts).toEqual({
+      create: 0,
+      update: 0,
+      delete: 1,
+      noop: 1,
+    });
+    expect(summary.results).toContainEqual({
+      pageId: 'page-3',
+      title: '고아 일정',
+      action: 'delete',
+      reason: 'managed event no longer has a matching source record',
+    });
+    expect(deleteEvent).toHaveBeenCalledWith('event-3');
+  });
+
   it('applies write-mode decisions to the Google adapter', async () => {
     const createEvent = vi.fn(async () => ({ id: 'event-1' }));
     const notionAdapter: NotionAdapter = {

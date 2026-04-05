@@ -38,6 +38,20 @@ function getIdentityKey(config: AppConfig, record: NotionRecord): string {
   return `${config.notionDatabaseId}:${record.pageId}`;
 }
 
+function getManagedEventPageId(
+  identityKey: string,
+  event: calendar_v3.Schema$Event,
+): string {
+  return (
+    event.extendedProperties?.private?.notionPageId ??
+    identityKey.split(':').slice(1).join(':')
+  );
+}
+
+function getManagedEventTitle(event: calendar_v3.Schema$Event): string {
+  return event.summary ?? '(untitled)';
+}
+
 async function applyDecision(
   decision: SyncDecision,
   adapter: GoogleCalendarAdapter,
@@ -82,6 +96,7 @@ export async function runSync(
     notionAdapter.fetchRecords(),
     googleAdapter.listManagedEvents(),
   ]);
+  const remainingManagedEvents = new Map(managedEvents);
 
   const counts = createCounts();
   const results: SyncItemResult[] = [];
@@ -89,6 +104,7 @@ export async function runSync(
   for (const record of records) {
     const identityKey = getIdentityKey(config, record);
     const existingEvent = managedEvents.get(identityKey) ?? null;
+    remainingManagedEvents.delete(identityKey);
     const decision = reconcileEvent(
       existingEvent,
       buildCalendarEventInput(record, config, now),
@@ -112,6 +128,20 @@ export async function runSync(
         record,
         now,
       );
+    }
+  }
+
+  for (const [identityKey, orphanedEvent] of remainingManagedEvents) {
+    counts.delete += 1;
+    results.push({
+      pageId: getManagedEventPageId(identityKey, orphanedEvent),
+      title: getManagedEventTitle(orphanedEvent),
+      action: 'delete',
+      reason: 'managed event no longer has a matching source record',
+    });
+
+    if (options.write && orphanedEvent.id) {
+      await googleAdapter.deleteEvent(orphanedEvent.id);
     }
   }
 
