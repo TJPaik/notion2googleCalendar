@@ -1,0 +1,14 @@
+{
+  "pageId": "page-deleted",
+  "properties": {
+    "이름": "삭제된 일정",
+    "날짜": {
+      "start": "2026-04-11",
+      "end": null,
+      "includesTime": false
+    },
+    "설명": "삭제 propagation fixture"
+  },
+  "archived": true,
+  "deleted": true
+}

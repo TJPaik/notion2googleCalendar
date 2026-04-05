@@ -1,0 +1,14 @@
+{
+  "pageId": "page-date-only",
+  "properties": {
+    "이름": "날짜만 있는 일정",
+    "날짜": {
+      "start": "2026-04-10",
+      "end": null,
+      "includesTime": false
+    },
+    "설명": "하루 종일 일정 fixture"
+  },
+  "archived": false,
+  "deleted": false
+}

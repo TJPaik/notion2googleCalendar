@@ -1,0 +1,33 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.4.10/schema.json",
+  "files": {
+    "includes": [
+      "src/**",
+      "tests/**",
+      "package.json",
+      "tsconfig*.json",
+      "vitest.config.ts",
+      "README.md",
+      ".env.example",
+      "CONTRIBUTING.md",
+      "SECURITY.md",
+      "LICENSE",
+      ".gitignore"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  }
+}

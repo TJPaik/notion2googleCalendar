@@ -1,1 +1,9 @@
 AI_utils/
+node_modules/
+dist/
+.env
+.env.local
+coverage/
+*.log
+.omx/
+credentials/

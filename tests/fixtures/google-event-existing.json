@@ -1,0 +1,12 @@
+{
+  "id": "google-event-1",
+  "summary": "기존 일정",
+  "description": "기존 설명",
+  "extendedProperties": {
+    "private": {
+      "source": "notion",
+      "notionPageId": "page-date-only",
+      "notionDatabaseId": "database-1"
+    }
+  }
+}

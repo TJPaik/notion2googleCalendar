@@ -1,0 +1,10 @@
+{
+  "pageId": "page-empty-date",
+  "properties": {
+    "이름": "날짜 비어 있음",
+    "날짜": null,
+    "설명": "fallback fixture"
+  },
+  "archived": false,
+  "deleted": false
+}

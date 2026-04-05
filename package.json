@@ -1,0 +1,50 @@
+{
+  "name": "notion2googlecalendar",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Manual-run Notion to Google Calendar sync CLI.",
+  "type": "commonjs",
+  "main": "dist/cli/sync.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run --passWithNoTests tests/integration",
+    "test:acceptance": "vitest run --passWithNoTests tests/acceptance",
+    "sync": "tsx src/cli/sync.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:TJPaik/notion2googleCalendar.git"
+  },
+  "keywords": [
+    "notion",
+    "google-calendar",
+    "sync",
+    "typescript"
+  ],
+  "author": "TJPaik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TJPaik/notion2googleCalendar/issues"
+  },
+  "homepage": "https://github.com/TJPaik/notion2googleCalendar#readme",
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.10",
+    "@types/node": "^25.5.2",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2"
+  },
+  "dependencies": {
+    "@google-cloud/local-auth": "^3.0.1",
+    "@notionhq/client": "^5.16.0",
+    "googleapis": "^171.4.0"
+  }
+}
